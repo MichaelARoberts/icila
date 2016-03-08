@@ -1,11 +1,11 @@
-var mongoose = require('mongoose')
-var Schema   = mongoose.Schema;
-mongoose.connect('mongodb://localhost/test')
+var mongoose  = require('mongoose')
+var Schema    = mongoose.Schema;
+var bcrpyt    = require('bcrypt-nodejs')
 
 var userSchema = new Schema({
   username : { type: String, required: true, unique: true},
   password : { type: String, required: true},
-  email    : String,
+  email    : { type: String, required: true, unqiue: true},
   image    : String,
   verified : Boolean,
   birthday : Date,
@@ -16,21 +16,36 @@ var userSchema = new Schema({
   admin    : Boolean
 })
 
-// TODO: Add a bcrypt pre-save method
+userSchema.pre('save',function(next){
+  var user = this;
+
+  bcrpyt.hash(user.password, null, null, function(err, hash){
+    if (err) {
+      return next(err)
+    }
+
+    user.password = hash
+    next()
+  })
+
+})
 
 var User = mongoose.model('User', userSchema)
-var newUser = new User({
+
+var newUser = User({
   username: "Michael",
-  password:"password",
+  password: "password",
   admin: true
 })
 
-newUser.save(function(err, newUser){
+newUser.save(function(err){
   if (err) {
-    return console.error(err)
+    throw err
   }
 
-  return console.log(newUser.username)
-})
+  console.log('[!] User Created')
+});
+
+
 
 module.exports = User
