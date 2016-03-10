@@ -3,17 +3,20 @@ var Schema    = mongoose.Schema;
 var bcrpyt    = require('bcrypt-nodejs')
 
 var userSchema = new Schema({
-  username : { type: String, required: true, unique: true},
-  password : { type: String, required: true},
-  email    : { type: String, required: true, unqiue: true},
-  image    : String,
-  verified : Boolean,
-  birthday : Date,
-  bio      : String,
-  nation   : String,
-  tags     : Array,
-  joined   : {type: Date, default:Date.now},
-  admin    : Boolean
+  username  : { type: String, required: true, unique: true},
+  password  : { type: String, required: true},
+  email     : { type: String, required: true, unqiue: true},
+  image     : String,
+  fname     : String,
+  lname     : String,
+  bday      : String,
+  joined    : {type: Date, default:Date.now},
+  tags      : Array,
+  admin     : Boolean,
+  verified  : Boolean,
+  friends   : Array,
+  bio       : String,
+  nation    : String
 })
 
 userSchema.pre('save',function(next){
@@ -35,6 +38,7 @@ var User = mongoose.model('User', userSchema)
 var newUser = User({
   username: "Michael",
   password: "password",
+  email: "michael@roberts.technology"
   admin: true
 })
 
