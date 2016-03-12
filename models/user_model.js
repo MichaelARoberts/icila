@@ -3,9 +3,9 @@ var Schema    = mongoose.Schema;
 var bcrpyt    = require('bcrypt-nodejs')
 
 var userSchema = new Schema({
-  username  : { type: String, required: true, unique: true},
+  username  : { type: String, required: true, unique: true, dropDups: true},
   password  : { type: String, required: true},
-  email     : { type: String, required: true, unqiue: true},
+  email     : { type: String, required: true, unqiue: true, dropDups: true},
   image     : String,
   fname     : String,
   lname     : String,
@@ -19,37 +19,22 @@ var userSchema = new Schema({
   nation    : String
 })
 
+// TODO: Get this hasher working!
 userSchema.pre('save',function(next){
   var user = this;
+  console.log('Updated!')
 
   bcrpyt.hash(user.password, null, null, function(err, hash){
     if (err) {
       return next(err)
     }
 
-    user.password = hash
+    user.password = hash;
     next()
   })
 
 })
 
 var User = mongoose.model('User', userSchema)
-
-var newUser = User({
-  username: "Michael",
-  password: "password",
-  email: "michael@roberts.technology"
-  admin: true
-})
-
-newUser.save(function(err){
-  if (err) {
-    throw err
-  }
-
-  console.log('[!] User Created')
-});
-
-
 
 module.exports = User

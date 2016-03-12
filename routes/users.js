@@ -10,17 +10,27 @@ var router = express.Router();
 /* GET users listing. */
 router.route('/users')
 
-  .post(function(req,res) {
-    var user = new User()
-    user.username = req.body.username;
-    user.password = req.body.password;
+  .post (function(req,res) {
+    username = req.body.username
+    password = req.body.password
+    email = req.body.email
 
-    user.save(function(err){
+    var user = new User ({
+      username : username,
+      password : password,
+      email    : email
+    })
+
+    user.save(user, function(err){
       if (err){
-        res.send(err)
+        if (err.name === 'MongoError' && err.code === 11000){
+          return res.status(500).send({ succes: false, message: 'User already exist!' });
+        } else {
+          res.status(500)
+        }
       }
 
-      res.json({ message: "Bear Created!"})
+      res.json({ message: "User Created!"})
     })
 
   })
@@ -35,5 +45,20 @@ router.route('/users')
     })
   })
 
+router.route('/users/:username')
+
+  .get (function(req,res) {
+    username = req.params.username
+    filter = {username : username}
+
+    User.findOne(filter, function(err, user) {
+      if (err) {
+        res.send(err)
+      }
+
+      res.json(user)
+    })
+
+  })
 
 module.exports = router;
