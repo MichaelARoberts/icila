@@ -6,7 +6,6 @@ var express = require('express');
 var router = express.Router();
 
 
-
 /* GET users listing. */
 router.route('/users')
 
@@ -58,6 +57,33 @@ router.route('/users/:username')
 
       res.json(user)
     })
+
+  })
+
+  .put (function(req,res) {
+    username = req.params.username
+    filter = {username : username}
+    newdata = req.body
+
+    User.findOne(filter, function(err,user){
+
+      // Update that shit
+      for(var ko in user){
+        for(var kt in newdata){
+          if (ko == kt || ko != admin){
+            user[ko] = newdata[kt];
+          }
+        }
+      }
+
+      user.save(function (err) {
+        if(err) {
+          res.send(err)
+        }
+      })
+    })
+
+    res.json({ message: "User Updated!"})
 
   })
 
