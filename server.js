@@ -5,8 +5,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
+var index = require('./routes/index');
+var search = require('./routes/search');
+var usersApi = require('./routes/users-api');
 
 var mongoose = require('mongoose')
 
@@ -28,8 +29,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 mongoose.connect('mongodb://localhost/test')
 
 // Page routing
-app.use('/api/v1', routes);
-app.use('/api/v1', users);
+app.use('/', index);
+app.use('/', search);
+app.use('/api/v1', usersApi);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

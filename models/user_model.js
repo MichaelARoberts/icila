@@ -22,7 +22,6 @@ var userSchema = new Schema({
 // TODO: Get this hasher working!
 userSchema.pre('save',function(next){
   var user = this;
-  console.log('Updated!')
 
   bcrpyt.hash(user.password, null, null, function(err, hash){
     if (err) {
