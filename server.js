@@ -9,6 +9,7 @@ var index = require('./routes/index');
 var search = require('./routes/search');
 var usersApi = require('./routes/users-api');
 var imagesApi = require('./routes/images-api')
+var eventsApi = require('./routes/events-api')
 var mongoose = require('mongoose')
 
 var app = express();
@@ -33,6 +34,7 @@ app.use('/', index)
 app.use('/', search)
 app.use('/api/v1', usersApi)
 app.use('/api/v1', imagesApi)
+app.use('/api/v1', eventsApi)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
