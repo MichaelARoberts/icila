@@ -10,6 +10,7 @@ var eventSchema = new Schema({
   created_date: {type: Date, default: Date.now},
   location    : String,
   zip         : Number,
+  url         : String
 })
 
 var Event  = mongoose.model("Event", eventSchema)

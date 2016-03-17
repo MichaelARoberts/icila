@@ -16,7 +16,8 @@ var userSchema = new Schema({
   verified  : Boolean,
   friends   : Array,
   bio       : String,
-  nation    : String
+  nation    : String,
+  url       : String
 })
 
 // TODO: Get this hasher working!
