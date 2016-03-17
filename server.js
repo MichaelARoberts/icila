@@ -5,12 +5,18 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+// Website Routes
 var index = require('./routes/index');
-var search = require('./routes/search');
-var usersApi = require('./routes/users-api');
-var imagesApi = require('./routes/images-api')
-var eventsApi = require('./routes/events-api')
+var events = require('./routes/events');
+
+// API Routes
+var usersApi = require('./routes/api/users-api');
+var imagesApi = require('./routes/api/images-api')
+var eventsApi = require('./routes/api/events-api')
+
+// Database Connection
 var mongoose = require('mongoose')
+mongoose.connect('mongodb://localhost/test')
 
 var app = express();
 
@@ -26,12 +32,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// DB connect
-mongoose.connect('mongodb://localhost/test')
-
 // Page routing
 app.use('/', index)
-app.use('/', search)
+app.use('/', events)
+
+// API routing
 app.use('/api/v1', usersApi)
 app.use('/api/v1', imagesApi)
 app.use('/api/v1', eventsApi)
