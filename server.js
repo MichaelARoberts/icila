@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 // Website Routes
 var index = require('./routes/index');
 var events = require('./routes/events');
+var images = require('./routes/images')
 
 // API Routes
 var usersApi = require('./routes/api/users-api');
@@ -35,6 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Page routing
 app.use('/', index)
 app.use('/', events)
+app.use('/', images)
 
 // API routing
 app.use('/api/v1', usersApi)
