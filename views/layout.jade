@@ -7,9 +7,19 @@ html
         crossorigin="anonymous")
 
   body
-    div.container-fluid
+    nav.navbar.navbar-full.navbar-light.bg-faded(style="margin-bottom:1rem;")
+      a(href="/").navbar-brand icila
+      ul.nav.navbar-nav
+        li.nav-item
+          a.nav-link(href="/events") Events
+        li.nav-item
+          a.nav-link(href="/people") People
+        a(href="/login")
+          button.btn.btn-primary-outline.pull-md-right.pull-sm-right.pull-xs-right
+            | Login
+        
     block content
-
+    
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js")
     script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" 
       integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" 
