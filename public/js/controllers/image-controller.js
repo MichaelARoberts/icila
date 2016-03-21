@@ -70,7 +70,7 @@ imageApp.controller('imageUploadCtrl', function($scope, $http, fileReader){
 
     $http.post('/api/v1/images', fd, {
       transformRequest: angular.identity,
-      headers: {'Content-Type': undefined}
+      headers: {'Content-Type': 'multipart/form-data'}
     })
 
   }

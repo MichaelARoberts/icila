@@ -10,7 +10,8 @@ var eventSchema = new Schema({
   created_date: {type: Date, default: Date.now},
   location    : String,
   zip         : Number,
-  tags        : Array,
+  tags        : String,
+  imgs        : Array,
   url         : String
 })
 

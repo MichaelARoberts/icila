@@ -1,11 +1,31 @@
+// Database Access
 var Event = require('../../models/event_model.js')
 
+//Multer Access (image/form uploads)
+var multer = require('multer')
+var upload = multer({dest:'uploads/images'})
+
+// Express Access
 var express = require('express')
 var router = express.Router()
 
+// Upload Fields
+var eventUpload = upload.fields([
+  {name:'name'},
+  {name:'created_by'},
+  {name:'desc'},
+  {name:'content'},
+  {name:'event_date'},
+  {name:'location'},
+  {name:'zip'},
+  {name:'tags'},
+  {name:'imgs', maxCount: 4},
+  {name:'url'},
+])
+
 router.route('/events')
 
-  .post(function(req,res) {
+  .post(eventUpload,function(req,res) {
     var name = req.body.name
     var created_by = req.body.created_by
     var desc = req.body.name
@@ -14,7 +34,7 @@ router.route('/events')
     var location = req.body.location
     var zip = req.body.zip
     var tags = req.body.tags
-    tags = tags.split(",")
+    var tags = req.files.imgs.path
     var url = name.replace(/\s/g, '')
 
     var event = new Event({

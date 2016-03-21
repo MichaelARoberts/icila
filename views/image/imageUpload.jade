@@ -9,7 +9,7 @@ block content
         
       div.col-md-6
         h3(style="text-align:center;") Upload an Image
-        form
+        form(enctype="multipart/form-data")
           div.form-group
             label.file(style="width:100%;")
               input(type="file" id="imageFile" ng-file-select="onFileSelect($file)" file-model="imageFile")
