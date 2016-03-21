@@ -1,0 +1,28 @@
+extends ../layout
+
+block content
+  div(ng-app='eventApp' ng-controller='searchEventsCtrl')
+    nav.navbar.navbar-fixed-bottom.navbar-light.bg-faded
+      div.container
+        form
+          div.input-group
+            span.input-group-btn
+              a(type="button").btn.btn-secondary
+                i.fa.fa-search
+            input.form-control(ng-model="filterValue" type="text" placeholder="Search")
+            span.input-group-btn
+              a(type="button" href="/create-event").btn.btn-primary
+                i.fa.fa-pencil-square-o
+              
+    div.container(style="padding-bottom: 4rem;")
+        div(ng-repeat='event in events | filter:{name:filterValue}' ).show
+          div.col-md-12
+            div.card.card-block
+              a(href="/events/{{event.url}}")
+                h4.card-link {{event.name}}
+              p.card-text
+                {{event.desc}}
+                br
+                small.text-muted {{event.event_date | date}}
+  
+    

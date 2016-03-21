@@ -1,0 +1,13 @@
+extends ../layout
+
+block content
+  div.container
+    div(ng-app='eventApp' ng-controller='singleEventCtrl')
+      div.jumbotron.jumbotron-fluid
+        div(style="text-align:center;")
+          h3 {{event.name}}
+          h5.text-muted {{event.event_date | date}}
+        
+      div.col-md-9.col-xs-12
+        p {{event.content}}
+        p.text-muted Posted: {{event.created_date | date}}

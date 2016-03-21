@@ -1,0 +1,31 @@
+extends ../layout
+
+block content
+  div(ng-app='imageApp' ng-controller='imageSearchCtrl')
+    nav.navbar.navbar-fixed-bottom.navbar-light.bg-faded
+      div.container
+        form
+          div.input-group
+            span.input-group-btn
+              a(type="button").btn.btn-secondary
+                i.fa.fa-search
+            input.form-control(ng-model="filterValue" type="text" placeholder="Search")
+            span.input-group-btn
+              a(href="/upload-image" type="button").btn.btn-primary
+                i.fa.fa-upload
+      
+    div.container-fluid(style="padding-bottom: 4rem;")
+      div.table-responsive
+        table(class="table table-bordered table-hover table-sm")
+          thead
+            tr
+              th Index
+              th Path
+              th Title
+              th Caption
+          tbody
+            tr(ng-repeat='image in images | filter:{title:filterValue}').show
+              th(scope="row") {{$index}}
+              td {{image.img}}
+              td {{image.title}}
+              td {{image.caption}}
