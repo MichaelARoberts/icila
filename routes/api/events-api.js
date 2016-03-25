@@ -3,7 +3,21 @@ var Event = require('../../models/event_model.js')
 
 //Multer Access (image/form uploads)
 var multer = require('multer')
-var upload = multer({dest:'uploads/images'})
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './public/imgs')
+  },
+  filename: function (req, file, cb) {
+    crypto.pseudoRandomBytes(16, function (err, raw) {
+      cb(null, raw.toString('hex') + Date.now() + '.' + mime.extension(file.mimetype));
+    });
+  }
+});
+
+var upload = multer({
+  dest:'./public/imgs',
+  storage:storage
+})
 
 // Express Access
 var express = require('express')
@@ -12,7 +26,7 @@ var router = express.Router()
 // Upload Fields
 var eventUpload = upload.fields([
   {name:'name'},
-  {name:'created_by'},
+  {name:'creator'},
   {name:'desc'},
   {name:'content'},
   {name:'event_date'},
@@ -25,25 +39,30 @@ var eventUpload = upload.fields([
 
 router.route('/events')
 
-  .post(eventUpload,function(req,res) {
+  .post(eventUpload, function(req,res) {
     var name = req.body.name
-    var created_by = req.body.created_by
-    var desc = req.body.name
+    var desc = req.body.desc
     var content = req.body.content
-    var event_date =  req.body.event_date
     var location = req.body.location
+    var event_date = req.body.event_date
+    var creator = req.body.creator
     var zip = req.body.zip
     var tags = req.body.tags
-    var tags = req.files.imgs.path
     var url = name.replace(/\s/g, '')
+
+    var filename = req.files.img[0]['filename']
+    var img = './imgs/' + filename
+    console.log(img)
+    //img = req.body.img
 
     var event = new Event({
       name        : name,
-      created_by  : created_by,
       desc        : desc,
+      img         : img,
       content     : content,
-      event_date  : event_date,
       location    : location,
+      event_date  : event_date,
+      creator     : creator,
       zip         : zip,
       tags        : tags,
       url         : url
@@ -58,7 +77,7 @@ router.route('/events')
         }
       }
 
-      res.json({ message: "Event Created!"})
+      res.status(200).sendjson({success: true})
     })
 
 

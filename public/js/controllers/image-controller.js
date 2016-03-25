@@ -58,10 +58,8 @@ imageApp.controller('imageUploadCtrl', function($scope, $http, fileReader){
   $scope.uploadImage = function(){
 
     var file = $scope.imageFile
-    console.log('file is ')
-    console.dir(file)
-
     var fd = new FormData()
+
     fd.append('img', file)
     fd.append('title', $scope.imageTitle)
     fd.append('caption', $scope.imageCaption)
@@ -70,7 +68,7 @@ imageApp.controller('imageUploadCtrl', function($scope, $http, fileReader){
 
     $http.post('/api/v1/images', fd, {
       transformRequest: angular.identity,
-      headers: {'Content-Type': 'multipart/form-data'}
+      headers: {'Content-Type': undefined}
     })
 
   }

@@ -41,13 +41,14 @@ router.route('/images')
   .post(imageUpload, function(req,res) {
 
     // Image Info
-    var img = req.files.img[0]['path']
+    var filename = req.files.img[0]['filename']
+    var img = './imgs/' + filename
     var title = req.body.title
     var caption = req.body.caption
     var zip = req.body.zip
     var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     var tags = req.body.tags
-    var url = title
+    var url = filename
 
     // TODO: Get ZIP code via geoip
     // var zip =

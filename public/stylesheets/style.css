@@ -17,3 +17,19 @@
 .show.ng-leave.ng-leave-active {
     opacity: 0;
 }
+
+.event-header {
+  margin-bottom: 3rem !important;
+  height:10rem;
+  padding: 0;
+  margin: 0;
+}
+
+.event-img {
+  background-color: rgb(215, 215, 215);
+  height:100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: .5rem;
+}

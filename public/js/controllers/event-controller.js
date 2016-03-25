@@ -15,6 +15,22 @@ eventApp.directive("ngFileSelect",function(){
   }
 })
 
+eventApp.directive('fileModel', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+
+            element.bind('change', function(){
+                scope.$apply(function(){
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
+        }
+    };
+}]);
+
 eventApp.factory('EventSearch', function($http){
 
   var EventSearch = {
@@ -50,7 +66,6 @@ eventApp.controller('searchEventsCtrl', function($scope, EventSearch){
 
 eventApp.controller('createEventCtrl', function($scope, $http, fileReader) {
 
-  console.log(fileReader)
   $scope.getFile = function () {
       $scope.progress = 0;
       fileReader.readAsDataUrl($scope.file, $scope).then(function(result) {
@@ -61,5 +76,28 @@ eventApp.controller('createEventCtrl', function($scope, $http, fileReader) {
   $scope.$on("fileProgress", function(e, progress) {
       $scope.progress = progress.loaded / progress.total;
   });
+
+  $scope.createEvent = function(){
+    var fd = new FormData()
+    var file = $scope.eventImage
+
+    fd.append('name', $scope.eventName)
+    fd.append('desc', $scope.eventDesc)
+    fd.append('img', file)
+    fd.append('content', $scope.eventContent)
+    fd.append('location', $scope.eventLocation)
+    fd.append('event_date', $scope.eventDate)
+    fd.append('creator', $scope.eventCreator)
+    fd.append('zip', $scope.eventZip)
+    fd.append('tags', $scope.eventTags)
+
+
+    console.log(file)
+
+    $http.post('/api/v1/events', fd, {
+      transformRequest: angular.identity,
+      headers: {'Content-Type': undefined}
+    })
+  }
 
 })

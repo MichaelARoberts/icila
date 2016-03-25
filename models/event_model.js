@@ -11,7 +11,7 @@ var eventSchema = new Schema({
   location    : String,
   zip         : Number,
   tags        : String,
-  imgs        : Array,
+  img         : String,
   url         : String
 })
 
