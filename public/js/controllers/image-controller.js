@@ -1,10 +1,10 @@
-var imageApp = angular.module('imageApp',[])
+var imageApp = angular.module('imageApp', [])
 
-imageApp.directive("ngFileSelect",function(){
+imageApp.directive("ngFileSelect", function() {
   return {
-    link: function($scope,el){
+    link: function($scope, el) {
 
-      el.bind("change", function(e){
+      el.bind("change", function(e) {
 
         $scope.file = (e.srcElement || e.target).files[0];
         $scope.getFile();
@@ -15,47 +15,47 @@ imageApp.directive("ngFileSelect",function(){
   }
 })
 
-imageApp.directive('fileModel', ['$parse', function ($parse) {
-    return {
-        restrict: 'A',
-        link: function(scope, element, attrs) {
-            var model = $parse(attrs.fileModel);
-            var modelSetter = model.assign;
+imageApp.directive('fileModel', ['$parse', function($parse) {
+  return {
+    restrict: 'A',
+    link: function(scope, element, attrs) {
+      var model = $parse(attrs.fileModel);
+      var modelSetter = model.assign;
 
-            element.bind('change', function(){
-                scope.$apply(function(){
-                    modelSetter(scope, element[0].files[0]);
-                });
-            });
-        }
-    };
+      element.bind('change', function() {
+        scope.$apply(function() {
+          modelSetter(scope, element[0].files[0]);
+        });
+      });
+    }
+  };
 }]);
 
 
-imageApp.controller('imageSearchCtrl', function($scope, $http){
+imageApp.controller('imageSearchCtrl', function($scope, $http) {
 
-  $http.get('/api/v1/images').then(function(res){
-      $scope.images = res.data
+  $http.get('/api/v1/images').then(function(res) {
+    $scope.images = res.data
   })
 
 })
 
-imageApp.controller('imageUploadCtrl', function($scope, $http, fileReader){
+imageApp.controller('imageUploadCtrl', function($scope, $http, fileReader) {
 
-  $scope.getFile = function () {
-      $scope.progress = 0;
-      fileReader.readAsDataUrl($scope.file, $scope).then(function(result) {
-        $scope.imageSrc = result;
-      });
+  $scope.getFile = function() {
+    $scope.progress = 0;
+    fileReader.readAsDataUrl($scope.file, $scope).then(function(result) {
+      $scope.imageSrc = result;
+    });
   };
 
   $scope.$on("fileProgress", function(e, progress) {
-      $scope.progress = progress.loaded / progress.total;
+    $scope.progress = progress.loaded / progress.total;
   });
 
 
 
-  $scope.uploadImage = function(){
+  $scope.uploadImage = function() {
 
     var file = $scope.imageFile
     var fd = new FormData()
@@ -68,7 +68,9 @@ imageApp.controller('imageUploadCtrl', function($scope, $http, fileReader){
 
     $http.post('/api/v1/images', fd, {
       transformRequest: angular.identity,
-      headers: {'Content-Type': undefined}
+      headers: {
+        'Content-Type': undefined
+      }
     })
 
   }
