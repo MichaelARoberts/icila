@@ -77,7 +77,7 @@ router.route('/events')
         }
       }
 
-      res.status(200).sendjson({success: true})
+      res.status(200).send({success: true})
     })
 
 
