@@ -13,7 +13,7 @@ block content
             span.input-group-btn
               a(type="button" href="/create-event").btn.btn-primary
                 i.fa.fa-pencil-square-o
-              
+
     div.container(style="padding-bottom: 4rem;")
         div(ng-repeat='event in events | filter:{name:filterValue}' ).show
           div.col-md-12
@@ -21,8 +21,6 @@ block content
               a(href="/events/{{event.url}}")
                 h4.card-link {{event.name}}
               p.card-text
-                {{event.desc}}
+                | {{event.desc}}
                 br
                 small.text-muted {{event.event_date | date}}
-  
-    
